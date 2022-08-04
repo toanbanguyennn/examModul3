@@ -31,6 +31,7 @@ public class ProductServlet extends HttpServlet {
             case "detail":
                 detailProduct(request, response);
                 break;
+
             default:
                 displayAllProduct(request, response);
         }
@@ -45,6 +46,9 @@ public class ProductServlet extends HttpServlet {
                 break;
             case "update":
                 updateProductPost(request, response);
+            case "searchByName":
+                searchByName(request, response);
+                break;
         }
     }
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -70,13 +74,12 @@ public class ProductServlet extends HttpServlet {
         request.setAttribute("categories", categories);
         requestDispatcher.forward(request, response);
     }
-    private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String search = request.getParameter("search");
-        ArrayList<Product> productsOfSearch = new ArrayList<>();
-
-        request.setAttribute("products", productsOfSearch);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view.jsp");
-        requestDispatcher.forward(request, response);
+    public void searchByName(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String nameProduct = request.getParameter("search");
+        HttpSession session = request.getSession();
+        ArrayList<Product> products = productService.findByName(nameProduct);
+        session.setAttribute("products", products);
+        response.sendRedirect("/product/display.jsp");
     }
     private void updateProductPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -99,7 +102,7 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void createProductPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String nameProduct = request.getParameter("name");
+        String nameProduct = request.getParameter("nameProduct");
         double price = Double.parseDouble(request.getParameter("price"));
         String color = request.getParameter("color");
         String description = request.getParameter("description");

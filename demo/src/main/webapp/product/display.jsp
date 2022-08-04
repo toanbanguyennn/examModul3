@@ -14,16 +14,33 @@
 <body>
 <h1>List Product</h1>
 <button style="margin-bottom: 10px"><a style="text-decoration: none" href="/product?action=create">Create new product</a></button>
+<td class="search-file">
+    <form class="nav-link d-flex" style="margin: 0" action="/product?action=searchByName" method="post">
+        <table>
+            <tr>
+                <td>
+                    <input class="form-control mr-2" type="text" size="25" placeholder="Search" name="search">
+                </td>
+                <td>
+                    <button class="btn btn-light ml-2" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</td>
 <table border="1" width="800px">
     <tr>
         <th>STT</th>
-        <th>Name</th>
+        <th>NameProduct</th>
         <th>Price</th>
         <th>Color</th>
         <th>Description</th>
         <th>Category</th>
         <th colspan="3">Action</th>
     </tr>
+
     <c:forEach items="${products}" var="p">
         <tr>
             <td>${p.getId()}</td>

@@ -33,4 +33,14 @@ public class ProductService implements ICRUDService<Product> {
     public void deleteById(int id) {
         productRepository.deleteById(id);
     }
+    public  ArrayList<Product> findByName(String name) {
+        ArrayList<Product> products = findAll();
+        ArrayList<Product> tempProducts = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getNameProduct().toLowerCase().contains(name.toLowerCase())) {
+                tempProducts.add(product);
+            }
+        }
+        return tempProducts;
+    }
 }
